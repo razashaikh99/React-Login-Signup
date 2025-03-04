@@ -19,7 +19,8 @@ const Login = () => {
 
         if (findRecord) {
             let userName = findRecord.name;
-            navigate("/welcome", { state: { n: userName } })
+            let role = findRecord.role;
+            navigate("/data", { state: { n: userName, rol: role } })
 
         } else {
             setMessage("Invalid Credentials");

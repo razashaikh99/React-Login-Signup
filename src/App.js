@@ -1,10 +1,11 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.css"
-import Welcome from './Component/Welcome';
 import Login from './Component/Login';
 import NotFound from './Component/NotFound';
 import Signup from './Component/Signup';
+import EmployeeForm from './Component/EmployeeForm';
+import GetData from './Component/GetData';
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
 
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/welcome" element={<Welcome />} />
+          <Route path="/form" element={<EmployeeForm />} />
+          <Route path="/data" element={<GetData />} />
           <Route path="*" element={<NotFound />} />
           
         </Routes>
