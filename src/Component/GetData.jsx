@@ -1,7 +1,10 @@
 import axios from 'axios';
+import { Tooltip } from 'react-tooltip';
+import { useDarkMode } from "usehooks-ts";
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import "bootstrap/dist/css/bootstrap.min.css"
 
 export default function GetData() {
     let [record, setRecord] = useState([]);
@@ -9,6 +12,7 @@ export default function GetData() {
     let [sort, setSort] = useState("");
     let [message, setMessage] = useState("");
     let [isShow, setIsShow] = useState(false);
+    let { toggle, isDarkMode } = useDarkMode();
 
     let mockapi_url = "https://67b418f7392f4aa94fa94a41.mockapi.io/Employe_data";
 
@@ -48,6 +52,15 @@ export default function GetData() {
                 })
         }
     }
+
+    // Dark Mode
+    useEffect(() => {
+        if (!isDarkMode) {
+            document.body.classList.add("dark-mode")
+        } else {
+            document.body.classList.remove("dark-mode")
+        }
+    }, [isDarkMode])
 
     // Update Logic
     function UpdateLogic() {
@@ -107,11 +120,11 @@ export default function GetData() {
             <h1 className='text-center mb-4 fw-bold'>Employees Data</h1>
 
             <div className='row mb-4'>
-                <div className='d-flex justify-content-between mb-3 col-md-2'>
-                    <Link className='btn btn-warning w-100' to='/em'>Add Employee +</Link>
-                </div>
 
-                <div className='col-md-6'>
+                <div className='d-flex justify-content-between mb-3 col-md-2'>
+                    <Link className='btn btn-warning w-100' to='/form'>Add Employee +</Link>
+                </div>
+                <div className='col-md-4'>
                     <input
                         type='text'
                         placeholder='Search Employee by Name'
@@ -129,6 +142,13 @@ export default function GetData() {
                         <option value='za'>Name Z to A</option>
                     </select>
                 </div>
+                <div className='col-md-2'>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked />
+                            <label class="form-check-label" for="flexSwitchCheckChecked">Dark Mode</label>
+                    </div>
+                </div>
+
             </div>
 
             {
@@ -136,7 +156,7 @@ export default function GetData() {
                     <h5 className="text-center mt-3 mb-3 text-danger fw-bold fs-4">{message}</h5>
                 )
             }
-            
+
             {
                 searchEmployees.length === 0 &&
                 (
@@ -215,7 +235,8 @@ export default function GetData() {
                                         style={{ height: '230px', objectFit: 'cover' }}
                                     />
                                     <div class="card-body">
-                                        <h4 className='card py-1 card-title fw-bold text-center'>{a.employee_name}</h4>
+                                        <h4 className='card py-1 card-title fw-bold text-center' data-tooltip-id={`id${a.id}`}>{a.employee_name}</h4>
+                                        <Tooltip id={`id${a.id}`} content={a.employee_email} place="top" />
                                         <p className='card-text'><b>- Email:</b> {a.employee_email}</p>
                                         <p className='card-text'><b>- Salary:</b> {a.employee_salary}</p>
                                         <p className='card-text'><b>- Department:</b> {a.employee_department}</p>
